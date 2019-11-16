@@ -1,7 +1,13 @@
 # Script to read in data and plot for plot2
 
-# read in data
-tabledata <- read.csv("household_power_consumption.txt", sep=";", header=TRUE ,na.strings = "?", stringsAsFactors = FALSE)
+#download zipped file
+temp <- tempfile()
+download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",temp)
+#unzip file and read in data
+tabledata <- read.table(unz(temp, "household_power_consumption.txt"),sep=";", 
+                        header=TRUE ,na.strings = "?",stringsAsFactors = FALSE)
+unlink(temp)
+
 
 #convert column time to date format
 tabledata$Date <- strptime(tabledata$Date, format="%d/%m/%Y")

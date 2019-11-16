@@ -1,21 +1,26 @@
 # Script to read in data and plot for plot4
-# read in data
-###tabledata <- read.csv("household_power_consumption.txt", sep=";", header=TRUE ,na.strings = "?", stringsAsFactors = FALSE)
+#download zipped file
+temp <- tempfile()
+download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",temp)
+#unzip file and read in data
+tabledata <- read.table(unz(temp, "household_power_consumption.txt"),sep=";", 
+                        header=TRUE ,na.strings = "?",stringsAsFactors = FALSE)
+unlink(temp)
 
 #convert column time to date format
-###tabledata$Date <- strptime(tabledata$Date, format="%d/%m/%Y")
+tabledata$Date <- strptime(tabledata$Date, format="%d/%m/%Y")
 
 #subset data betweem 1/2/07 and 2/2/07
-###dt <- subset(tabledata, Date >= "2007-02-01" & Date <= ("2007-02-02"))
+dt <- subset(tabledata, Date >= "2007-02-01" & Date <= ("2007-02-02"))
 
 # we will now be working with the three sub meterings. 
 # Convert to numeric
-###dt$Sub_metering_1 <- as.numeric(dt$Sub_metering_1)
-###dt$Sub_metering_2 <- as.numeric(dt$Sub_metering_2)
-###dt$Sub_metering_3 <- as.numeric(dt$Sub_metering_3)
-###dt$Global_active_power <- as.numeric(dt$Global_active_power)
-###dt$Voltage <- as.numeric(dt$Voltage)
-###dt$Global_reactive_power <- as.numeric((dt$Global_reactive_power))
+dt$Sub_metering_1 <- as.numeric(dt$Sub_metering_1)
+dt$Sub_metering_2 <- as.numeric(dt$Sub_metering_2)
+dt$Sub_metering_3 <- as.numeric(dt$Sub_metering_3)
+dt$Global_active_power <- as.numeric(dt$Global_active_power)
+dt$Voltage <- as.numeric(dt$Voltage)
+dt$Global_reactive_power <- as.numeric((dt$Global_reactive_power))
 
 #add in multiple graphing windows
 par(mfrow=c(2,2))
